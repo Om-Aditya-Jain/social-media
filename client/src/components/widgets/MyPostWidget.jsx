@@ -59,7 +59,7 @@ const MyPostWidget = ({ picturePath }) => {
 	};
 
 	return (
-		<WidgetWrapper>
+		<WidgetWrapper m="0 0 2rem 0">
 			<FlexBetween gap="1.5rem">
 				<UserImage image={picturePath} />
 				<InputBase
@@ -160,6 +160,7 @@ const MyPostWidget = ({ picturePath }) => {
 						color: palette.background.alt,
 						backgroundColor: palette.primary.main,
 						borderRadius: "3rem",
+						"&:hover": { color: palette.primary.dark },
 					}}
 				>
 					POST

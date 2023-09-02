@@ -1,13 +1,23 @@
 import React from "react";
-import { PersonAddOutlined, PersonRemoveOutlined } from "@mui/icons-material";
-import { Box, IconButton, Typography, useTheme } from "@mui/material";
+import {
+  DeleteOutline,
+  PersonAddOutlined,
+  PersonRemoveOutlined,
+} from "@mui/icons-material";
+import {
+  Box,
+  IconButton,
+  Typography,
+  responsiveFontSizes,
+  useTheme,
+} from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setFriends } from "../state";
+import { setFriends, setPosts } from "../state";
 import FlexBetween from "./FlexBetween";
 import UserImage from "./UserImage";
 
-const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
+const Friend = ({ friendId, name, subtitle, userPicturePath, postId }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { _id } = useSelector((state) => state.user);
@@ -35,6 +45,18 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
     );
     const data = await response.json();
     dispatch(setFriends({ friends: data }));
+  };
+
+  const deletePost = async () => {
+    const response = await fetch(
+      `http://localhost:3001/posts/${postId}/delete`,
+      {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    const data = await response.json();
+    dispatch(setPosts({ posts: data }));
   };
 
   return (
@@ -65,7 +87,7 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
           </Typography>
         </Box>
       </FlexBetween>
-      {_id !== friendId && (
+      {_id !== friendId ? (
         <IconButton
           onClick={() => patchFriend()}
           sx={{ backgroundColor: primaryLight, p: "0.6rem" }}
@@ -75,6 +97,13 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
           ) : (
             <PersonAddOutlined sx={{ color: primaryDark }} />
           )}
+        </IconButton>
+      ) : (
+        <IconButton
+          onClick={() => deletePost()}
+          sx={{ backgroundColor: primaryLight, p: "0.6rem" }}
+        >
+          <DeleteOutline sx={{ color: primaryDark }} />
         </IconButton>
       )}
     </FlexBetween>

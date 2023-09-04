@@ -14,7 +14,7 @@ const Login = () => {
 				textAlign="center"
 			>
 				<Typography fontWeight="Bold" fontSize="32px" color="primary">
-					Social Media
+					Social World
 				</Typography>
 			</Box>
 			<Box

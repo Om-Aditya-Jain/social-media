@@ -60,7 +60,7 @@ const Form = () => {
 		}
 		formData.append("picturePath", values.picture.name);
 		const savedUserResponse = await fetch(
-			"http://localhost:3001/auth/register",
+			`${import.meta.env.VITE_API_URL}/auth/register`,
 			{ method: "POST", body: formData }
 		);
 		const savedUser = await savedUserResponse.json();
@@ -72,11 +72,14 @@ const Form = () => {
 	};
 
 	const login = async (values, onSubmitProps) => {
-		const loggedInResponse = await fetch("http://localhost:3001/auth/login", {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify(values),
-		});
+		const loggedInResponse = await fetch(
+			`${import.meta.env.VITE_API_URL}/auth/login`,
+			{
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(values),
+			}
+		);
 		const loggedIn = await loggedInResponse.json();
 		onSubmitProps.resetForm();
 		if (loggedIn) {
